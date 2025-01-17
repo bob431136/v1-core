@@ -10,6 +10,7 @@ bytes32 constant GOVERNOR_ROLE = keccak256("GOVERNOR");
 bytes32 constant GUARDIAN_ROLE = keccak256("GUARDIAN");
 bytes32 constant PAUSER_ROLE = keccak256("PAUSER");
 bytes32 constant RISK_MANAGER_ROLE = keccak256("RISK_MANAGER");
+bytes32 constant LIQUIDATE_CALLBACK_ROLE = keccak256("LIQUIDATE_CALLBACK");
 
 interface IOverlayV1Token is IAccessControl, IERC20 {
     // mint/burn

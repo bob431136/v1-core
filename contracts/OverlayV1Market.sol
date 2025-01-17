@@ -8,6 +8,7 @@ import "./interfaces/IOverlayV1Factory.sol";
 import "./interfaces/IOverlayV1Market.sol";
 import "./interfaces/IOverlayV1Token.sol";
 import "./interfaces/feeds/IOverlayV1Feed.sol";
+import "./interfaces/callback/IOverlayMarketLiquidateCallback.sol";
 
 import "./libraries/FixedCast.sol";
 import "./libraries/FixedPoint.sol";
@@ -149,6 +150,8 @@ contract OverlayV1Market is IOverlayV1Market, Pausable {
     /// @param oiLong oiLong after public update
     /// @param oiShort oiShort after public update
     event Update(uint256 oiLong, uint256 oiShort);
+
+    event LiquidateCallbackFailed(address owner, uint256 positionId);
 
     constructor() {
         (address _ovl, address _feed, address _factory) =
@@ -432,6 +435,17 @@ contract OverlayV1Market is IOverlayV1Market, Pausable {
         uint256 marginToBurn;
         uint256 marginRemaining;
         Position.Info memory pos;
+
+        // if the owner of the potision has LIQUIDATE_CALLBACK_ROLE, make a callback
+        // must be executed before the new postion state is stored
+        // attempt the callback without reverting on failure
+        if (ovl.hasRole(LIQUIDATE_CALLBACK_ROLE, owner)) {
+            try IOverlayMarketLiquidateCallback(owner).overlayMarketLiquidateCallback(positionId) {}
+            catch {
+                emit LiquidateCallbackFailed(owner, positionId);
+            }
+        }
+
         // avoids stack too deep
         {
             // check position exists
