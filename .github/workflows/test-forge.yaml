@@ -33,7 +33,8 @@ jobs:
         id: build
 
       - name: Run Forge tests
-        run: |
-          export RPC="https://arbitrum-mainnet.infura.io/v3/${{ secrets.WEB3_INFURA_PROJECT_ID }}"
-          forge test -vvv
+        env:
+          RPC: https://arbitrum-mainnet.infura.io/v3/${{ secrets.WEB3_INFURA_PROJECT_ID }}
+          SEPOLIA_RPC: https://arbitrum-sepolia.infura.io/v3/${{ secrets.WEB3_INFURA_PROJECT_ID }}
+        run: forge test -vvv
         id: test

@@ -1,0 +1,10 @@
+{
+  "answerDesiredValue": 144378,
+  "answerPercentageDriftTolerance": 10,
+  "blockNumber": 44706000,
+  "feedAddress": "0x1594F325afc4f8dc4E4ad0A3F758f48B1F72930a",
+  "heartbeat": 4000,
+  "macroWindowPercentageDriftTolerance": 10,
+  "microWindowPercentageDriftTolerance": 20,
+  "roundCount": 10
+}

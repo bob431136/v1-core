@@ -10,6 +10,7 @@ test = "tests"
 script = "scripts"
 out = "forge-out"
 libs = ["lib"]
+fs_permissions = [{ access = "read", path = "./config"}]
 
 remappings = [
     "@openzeppelin/=lib/openzeppelin-contracts/",
